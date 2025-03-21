@@ -11,7 +11,7 @@ Write-Host "`n3. Updating Symfony dependencies..." -ForegroundColor Green
 docker compose exec php composer update "symfony/*" --with-all-dependencies
 
 Write-Host "`n4. Rebuilding containers..." -ForegroundColor Green
-docker compose down
+docker compose down --remove-orphans
 docker compose build --no-cache
 docker compose up -d
 
