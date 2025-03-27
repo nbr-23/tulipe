@@ -21,3 +21,8 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 /migrations/
+
+
+###< ggshield for security keys check ###
+.cache_ggshield
+###< ggshield for security keys check ###

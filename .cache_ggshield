@@ -1,1 +1,1 @@
-{"last_found_secrets": [{"match": "f72f9edef3f7a1faeb7c5a118dd758440916bc1235d09eed0fa3cf6bfb3929e7", "name": "GitGuardian Internal Monitoring Key - commit://staged/compose.yaml"}]}
+{"last_found_secrets": [{"name": "GitGuardian Internal Monitoring Key - commit://staged/Dockerfile", "match": "f72f9edef3f7a1faeb7c5a118dd758440916bc1235d09eed0fa3cf6bfb3929e7"}]}
