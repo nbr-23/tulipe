@@ -16,6 +16,7 @@ services:
       # The two next lines can be removed after initial installation
       SYMFONY_VERSION: ${SYMFONY_VERSION:-}
       STABILITY: ${STABILITY:-stable}
+      GITGUARDIAN_API_KEY: ${GITGUARDIAN_API_KEY}
     volumes:
       - caddy_data:/data
       - caddy_config:/config
@@ -32,6 +33,15 @@ services:
       - target: 443
         published: ${HTTP3_PORT:-443}
         protocol: udp
+
+  ggshield:
+    image: gitguardian/ggshield
+    volumes:
+      - .:/TULIPE
+    command: auth login
+    environment:
+      - GITGUARDIAN_API_KEY=${GITGUARDIAN_API_KEY}
+
 
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###
