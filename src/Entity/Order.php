@@ -55,16 +55,6 @@ class Order
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    /**
-     * @var Collection<int, OrderItem>
-     */
-    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'order_id', orphanRemoval: true)]
-    private Collection $product_id;
-
-    public function __construct()
-    {
-        $this->product_id = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -215,33 +205,5 @@ class Order
         return $this;
     }
 
-    /**
-     * @return Collection<int, OrderItem>
-     */
-    public function getProductId(): Collection
-    {
-        return $this->product_id;
-    }
 
-    public function addProductId(OrderItem $productId): static
-    {
-        if (!$this->product_id->contains($productId)) {
-            $this->product_id->add($productId);
-            $productId->setOrderId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductId(OrderItem $productId): static
-    {
-        if ($this->product_id->removeElement($productId)) {
-            // set the owning side to null (unless already changed)
-            if ($productId->getOrderId() === $this) {
-                $productId->setOrderId(null);
-            }
-        }
-
-        return $this;
-    }
 }
