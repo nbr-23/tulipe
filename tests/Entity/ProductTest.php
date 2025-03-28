@@ -2,6 +2,7 @@
 
 namespace App\Tests\Entity;
 use App\Entity\Product;
+use Doctrine\Common\Collections\Collection;
 
 
 use PHPUnit\Framework\TestCase;
@@ -61,6 +62,13 @@ class ProductTest extends TestCase
         // Test changing  status
         $this->product->setStatus('inactive');
         $this->assertEquals('inactive', $this->product->getStatus());
+    }
+
+    public function testOrderItemsCollection(): void
+    {
+        // Test initial state of order items
+        $this->assertInstanceOf(Collection::class, $this->product->getOrderItems());
+        $this->assertTrue($this->product->getOrderItems()->isEmpty());
     }
 
 }
