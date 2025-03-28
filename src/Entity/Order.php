@@ -18,7 +18,7 @@ class Order
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     #[ORM\Column(length: 50)]
     private ?string $status = null;
@@ -43,11 +43,11 @@ class Order
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Address $shipping_address_id = null;
+    private ?Address $shipping_address = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Address $billing_address_id = null;
+    private ?Address $billing_address = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
@@ -58,7 +58,7 @@ class Order
     /**
      * @var Collection<int, OrderItem>
      */
-    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'order_id', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'order', orphanRemoval: true)]
     private Collection $orderItems;
 
     public function __construct()
@@ -74,12 +74,12 @@ class Order
 
     public function getUserId(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): static
+    public function setUserId(?User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
@@ -170,24 +170,24 @@ class Order
 
     public function getShippingAddressId(): ?int
     {
-        return $this->shipping_address_id;
+        return $this->shipping_address;
     }
 
-    public function setShippingAddressId(int $shipping_address_id): static
+    public function setShippingAddressId(?Address $shipping_address): static
     {
-        $this->shipping_address_id = $shipping_address_id;
+        $this->shipping_address = $shipping_address;
 
         return $this;
     }
 
     public function getBillingAddressId(): ?Address
     {
-        return $this->billing_address_id;
+        return $this->billing_address;
     }
 
-    public function setBillingAddressId(?Address $billing_address_id): static
+    public function setBillingAddressId(?Address $billing_address): static
     {
-        $this->billing_address_id = $billing_address_id;
+        $this->billing_address = $billing_address;
 
         return $this;
     }

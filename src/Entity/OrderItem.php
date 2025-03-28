@@ -17,13 +17,13 @@ class OrderItem
 
     #[ORM\ManyToOne(inversedBy: 'orderItems')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Order $order_id = null;
+    private ?Order $order = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderItems')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Product $product_id = null;
+    private ?Product $product = null;
 
-    #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true])]
+    #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true])] //  unsigned : Permet uniquement les nombres positifs (0 et plus)
     #[Assert\NotNull]
     #[Assert\Positive]
     private int $quantity = 1;
@@ -41,24 +41,24 @@ class OrderItem
 
     public function getOrderId(): ?Order
     {
-        return $this->order_id;
+        return $this->order;
     }
 
-    public function setOrderId(?Order $order_id): static
+    public function setOrderId(?Order $order): static
     {
-        $this->order_id = $order_id;
+        $this->order = $order;
 
         return $this;
     }
 
     public function getProductId(): ?Product
     {
-        return $this->product_id;
+        return $this->product;
     }
 
-    public function setProductId(?Product $product_id): static
+    public function setProductId(?Product $product): static
     {
-        $this->product_id = $product_id;
+        $this->product = $product;
 
         return $this;
     }

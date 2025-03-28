@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[ORM\UniqueConstraint(name: 'UNIQENTIFIER_EMAIL', fields: ['email'])]
 #[ORM\HasLifecycleCallbacks] 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -53,13 +53,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Address>
      */
-    #[ORM\OneToMany(targetEntity: Address::class, mappedBy: 'user_id')]
+    #[ORM\OneToMany(targetEntity: Address::class, mappedBy: 'user')]
     private Collection $addresses;
 
     /**
      * @var Collection<int, Order>
      */
-    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user_id')]
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
     private Collection $orders;
 
     public function __construct()
