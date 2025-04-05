@@ -6,6 +6,7 @@ use App\Repository\OrderItemRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OrderItemRepository::class)]
 class OrderItem
@@ -23,6 +24,7 @@ class OrderItem
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['default'])]
     private ?int $id = null;
 
     /* The quantity of the product in this order item.
@@ -33,6 +35,7 @@ class OrderItem
     #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true])]
     #[Assert\NotNull]
     #[Assert\Positive]
+    #[Groups(['default'])]
     private int $quantity = 1;
 
     /* The unit price of the product in this order item.
@@ -43,6 +46,7 @@ class OrderItem
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotNull]
     #[Assert\Positive]
+    #[Groups(['default'])]
     private ?string $unit_price = null;
 
     ################################
