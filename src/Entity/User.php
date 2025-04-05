@@ -380,7 +380,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->addresses->contains($address)) {
             $this->addresses->add($address);
-            $address->setUserId($this);
+            $address->setUser($this);
         }
 
         return $this;
@@ -395,8 +395,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeAddress(Address $address): static
     {
         if ($this->addresses->removeElement($address)) {
-            if ($address->getUserId() === $this) {
-                $address->setUserId(null);
+            if ($address->getUser() === $this) {
+                $address->setUser(null);
             }
         }
 
