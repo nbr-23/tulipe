@@ -47,21 +47,21 @@ class Order
 
     /* The total amount of the order.
      * 
-     * @var float|null
+     * @var string|null
      */
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotNull]
     #[Assert\PositiveOrZero]
-    private ?float $total_amount = null;
+    private ?string $total_amount = null;
 
     /* The shipping amount for the order.
      * 
-     * @var float|null
+     * @var string|null
      */
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotNull]
     #[Assert\PositiveOrZero]
-    private ?float $shipping_amount = null;
+    private ?string $shipping_amount = null;
 
     /* The payment method used for the order.
      * 

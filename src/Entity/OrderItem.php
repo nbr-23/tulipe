@@ -38,12 +38,12 @@ class OrderItem
     /* The unit price of the product in this order item.
      * Must be a positive decimal value.
      * 
-     * @var float|null
+     * @var string|null
      */
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotNull]
     #[Assert\Positive]
-    private ?float $unit_price = null;
+    private ?string $unit_price = null;
 
     ################################
     ################################

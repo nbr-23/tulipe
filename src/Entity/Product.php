@@ -50,12 +50,12 @@ class Product
     /* The product price, a decimal value with a precision of 10 and scale of 2.
      * Must be a positive value and cannot be null.
      * 
-     * @var float|null
+     * @var string|null
      */
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotNull]
     #[Assert\Positive]
-    private ?float $price = null;
+    private ?string $price = null;
 
     /* The product type, a string with a maximum length of 50 characters.
      * Must not be blank.
