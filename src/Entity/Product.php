@@ -65,6 +65,8 @@ class Product
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
+        $this->created_at = new \DateTimeImmutable();
+        $this->updated_at = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -208,5 +210,20 @@ class Product
         }
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        if ($this->created_at === null) {
+            $this->created_at = new \DateTimeImmutable();
+        }
+    }
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        
+        $this->updated_at = new \DateTimeImmutable();
+        
     }
 }
