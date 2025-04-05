@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -27,6 +28,7 @@ class Order
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['default'])]
     private ?int $id = null;
 
     /* The user associated with the order.
@@ -43,6 +45,7 @@ class Order
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
     #[Assert\Choice(choices: ['pending', 'completed', 'cancelled'])]
+    #[Groups(['default'])]
     private ?string $status = null;
 
     /* The total amount of the order.
@@ -52,6 +55,7 @@ class Order
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotNull]
     #[Assert\PositiveOrZero]
+    #[Groups(['default'])]
     private ?string $total_amount = null;
 
     /* The shipping amount for the order.
@@ -69,6 +73,7 @@ class Order
      */
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
+    #[Groups(['default'])]
     private ?string $payment_method = null;
 
     /* The payment status of the order (e.g., paid, unpaid).
@@ -91,7 +96,7 @@ class Order
      * 
      * @var string|null
      */
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\Length(max: 1000)]
     private ?string $notes = null;
 
@@ -387,7 +392,7 @@ class Order
      * 
      * @return Address|null
      */
-    public function getShippingAddressId(): ?int
+    public function getShippingAddress(): ?int
     {
         return $this->shipping_address;
     }
@@ -398,7 +403,7 @@ class Order
      * @param Address|null $shipping_address
      * @return static
      */
-    public function setShippingAddressId(?Address $shipping_address): static
+    public function setShippingAddress(?Address $shipping_address): static
     {
         $this->shipping_address = $shipping_address;
 
@@ -410,7 +415,7 @@ class Order
      * 
      * @return Address|null
      */
-    public function getBillingAddressId(): ?Address
+    public function getBillingAddress(): ?Address
     {
         return $this->billing_address;
     }
@@ -421,7 +426,7 @@ class Order
      * @param Address|null $billing_address
      * @return static
      */
-    public function setBillingAddressId(?Address $billing_address): static
+    public function setBillingAddress(?Address $billing_address): static
     {
         $this->billing_address = $billing_address;
 
@@ -494,7 +499,7 @@ class Order
     {
         if (!$this->orderItems->contains($orderItem)) {
             $this->orderItems->add($orderItem);
-            $orderItem->setOrderId($this);
+            $orderItem->setOrder($this);
         }
 
         return $this;
@@ -509,8 +514,8 @@ class Order
     public function removeOrderItem(OrderItem $orderItem): static
     {
         if ($this->orderItems->removeElement($orderItem)) {
-            if ($orderItem->getOrderId() === $this) {
-                $orderItem->setOrderId(null);
+            if ($orderItem->getOrder() === $this) {
+                $orderItem->setOrder(null);
             }
         }
 

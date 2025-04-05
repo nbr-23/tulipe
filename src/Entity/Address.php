@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 #[ORM\HasLifecycleCallbacks] 
@@ -23,6 +24,7 @@ class Address
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['default'])]
     private ?int $id = null;
 
     /* The type of address (e.g., billing, shipping).
@@ -32,6 +34,7 @@ class Address
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
+    #[Groups(['default'])]
     private ?string $type = null;
 
     /* The first name associated with the address.
@@ -41,6 +44,7 @@ class Address
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
+    #[Groups(['default'])]
     private ?string $first_name = null;
 
     /* The last name associated with the address.
@@ -50,6 +54,7 @@ class Address
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
+    #[Groups(['default'])]
     private ?string $last_name = null;
 
     /* The first line of the street address.
@@ -59,6 +64,7 @@ class Address
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
+    #[Groups(['default'])]
     private ?string $street1 = null;
 
     /* The second line of the street address (optional).
@@ -67,6 +73,7 @@ class Address
      */
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
+    #[Groups(['default'])]
     private ?string $street2 = null;
 
     /* The city of the address.
@@ -76,6 +83,7 @@ class Address
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 100)]
+    #[Groups(['default'])]
     private ?string $city = null;
 
     /* The state or region of the address (optional).
@@ -84,6 +92,7 @@ class Address
      */
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
+    #[Groups(['default'])]
     private ?string $state = null;
 
     /* The country code of the address (ISO 3166-1 alpha-2 format).
@@ -94,6 +103,7 @@ class Address
     #[Assert\NotBlank]
     #[Assert\Length(max: 2)]
     #[Assert\Regex(pattern: "/^[A-Z]{2}$/", message: "The country code must be in ISO 3166-1 alpha-2 format.")]
+    #[Groups(['default'])]
     private ?string $country = null;
 
     /* The postal code of the address.
@@ -103,6 +113,7 @@ class Address
     #[ORM\Column(length: 20)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 20)]
+    #[Groups(['default'])]
     private ?string $zip_code = null;
 
     /* The phone number associated with the address (optional).
@@ -112,6 +123,7 @@ class Address
     #[ORM\Column(length: 20, nullable: true)]
     #[Assert\Length(max: 20)]
     #[Assert\Regex(pattern: "/^\+?[0-9\s\-]+$/", message: "The phone number is invalid.")]
+    #[Groups(['default'])]
     private ?string $phone = null;
 
     /* Indicates whether this address is the default address.
@@ -119,6 +131,7 @@ class Address
      * @var bool|null
      */
     #[ORM\Column]
+    #[Groups(['default'])]
     private ?bool $is_default = null;
 
     /* The creation date of the address, automatically set when the address is created.
@@ -126,6 +139,7 @@ class Address
      * @var \DateTimeImmutable|null
      */
     #[ORM\Column]
+    #[Groups(['default'])]
     private ?\DateTimeImmutable $created_at = null;
 
     ################################
@@ -139,6 +153,7 @@ class Address
      * @var User|null
      */
     #[ORM\ManyToOne(inversedBy: 'addresses')]
+    #[Groups(['default'])]
     private ?User $user = null;
 
     ################################
@@ -469,5 +484,15 @@ class Address
         $this->is_default = $is_default;
 
         return $this;
+    }
+
+    /**
+     * Get the creation date of the address.
+     * 
+     * @return \DateTimeImmutable|null
+     */
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
     }
 }
