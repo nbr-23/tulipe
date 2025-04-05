@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OrderItemRepository::class)]
+#[ORM\Table(name: '`order_item`')]
 class OrderItem
 {
     ################################

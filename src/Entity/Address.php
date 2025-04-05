@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
+#[ORM\Table(name: '`address`')]
 #[ORM\HasLifecycleCallbacks] 
 class Address
 {
