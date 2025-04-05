@@ -64,6 +64,23 @@ class Order
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
+        $this->created_at = new \DateTimeImmutable();
+        $this->updated_at = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        if ($this->created_at === null) {
+            $this->created_at = new \DateTimeImmutable();
+        }
+
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updated_at = new \DateTimeImmutable();
     }
 
 
@@ -168,7 +185,7 @@ class Order
         return $this;
     }
 
-    public function getShippingAddressId(): ?int
+    public function getShippingAddressId(): ?Address
     {
         return $this->shipping_address;
     }
