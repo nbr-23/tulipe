@@ -108,8 +108,6 @@ class Product
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-<<<<<<< Updated upstream
-=======
 
     ################################
     ################################
@@ -186,7 +184,6 @@ class Product
      * 
      * These methods allow you to get and set the values of the product's attributes.
      */
->>>>>>> Stashed changes
     public function getId(): ?int
     {
         return $this->id;
@@ -398,9 +395,5 @@ class Product
 
         return $this;
     }
-<<<<<<< Updated upstream
-}
-=======
 
 }
->>>>>>> Stashed changes
