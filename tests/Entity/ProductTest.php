@@ -134,14 +134,5 @@ class ProductTest extends TestCase
         $this->assertSame($this->product->getCreatedAt(), $this->product->getCreatedAt());
     }
 
-    /**
-     * Test the relationship between Product and OrderItem.
-     * 
-     * Verifies that:
-     * - Order items can be added to the product
-     * - Added order items are correctly stored in the collection
-     * - Order items can be removed from the product
-     */
-
 
 }
