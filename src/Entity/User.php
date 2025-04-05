@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column(length: 180)]
     #[Assert\NotBlank]
-    #[Assert\Email] // Ensures the email is valid
+    #[Assert\Email]
     #[Groups(['default'])]
     private ?string $email = null;
 
@@ -57,7 +57,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string|null
      */
     #[ORM\Column]
-    #[Assert\NotBlank] 
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/",
+        message: "The password must be at least 8 characters long and include at least one letter and one number."
+    )]
     private ?string $password = null;
 
     /* The user's first name, optional.
@@ -65,7 +69,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string|null
      */
     #[ORM\Column(length: 100, nullable: true)]
-    #[Assert\Length(max: 100)] 
+    #[Assert\Length(max: 100)]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-ZÀ-ÿ-]+$/",
+        message: "The name can only contain letters and hyphens."
+    )]
     private ?string $firstName = null;
 
     /* The user's last name, optional.
@@ -73,7 +81,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string|null
      */
     #[ORM\Column(length: 100, nullable: true)]
-    #[Assert\Length(max: 100)] 
+    #[Assert\Length(max: 100)]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-ZÀ-ÿ-]+$/",
+        message: "The name can only contain letters and hyphens."
+    )]
     private ?string $lastName = null;
 
     /* The user's account creation date.
