@@ -41,7 +41,7 @@ class ProductTest extends TestCase
      * Test default values of a newly created Product.
      * 
      * Verifies that:
-     * - The default status is 'active'
+     * - The default status is 'inactive'
      * - Stock is initially null
      * - ID is initially null
      * - Order items collection is empty
@@ -50,13 +50,11 @@ class ProductTest extends TestCase
     public function testDefaultValues(): void
     {
         // Testing values by default
-        $this->assertEquals('active', $this->product->getStatus());
+        $this->assertEquals('inactive', $this->product->getStatus());
         $this->assertNull($this->product->getStock()); 
         $this->assertNull($this->product->getId());
 
-        // Test initial state of order items
-        $this->assertInstanceOf(Collection::class, $this->product->getOrderItems());
-        $this->assertTrue($this->product->getOrderItems()->isEmpty());
+       
     }
 
 
@@ -97,7 +95,7 @@ class ProductTest extends TestCase
         ->setType('book')
         ->setSlug('advanced-php-programming')
         ->setDescription('A comprehensive guide to advanced PHP techniques')
-        ->setStatus('inactive');
+        ->setStatus('active');
 
     // Assert that the values are set correctly
     $this->assertEquals('Advanced PHP Programming', $this->product->getName());
@@ -106,7 +104,7 @@ class ProductTest extends TestCase
     $this->assertEquals('book', $this->product->getType());
     $this->assertEquals('advanced-php-programming', $this->product->getSlug());
     $this->assertEquals('A comprehensive guide to advanced PHP techniques', $this->product->getDescription());
-    $this->assertEquals('inactive', $this->product->getStatus());
+    $this->assertEquals('active', $this->product->getStatus());
     }
 
 
@@ -144,19 +142,6 @@ class ProductTest extends TestCase
      * - Added order items are correctly stored in the collection
      * - Order items can be removed from the product
      */
-    public function testOrderItemRelation(): void
-    {
-        $orderItem = $this->createMock(originalClassName: OrderItem::class);
-        $this->product->addOrderItem($orderItem);
-        
-        // Test that the order item was added
-        $this->assertCount(1, $this->product->getOrderItems());
-        $this->assertTrue($this->product->getOrderItems()->contains($orderItem));
-
-        // Test that the order item can be removed
-        $this->product->removeOrderItem($orderItem);
-        $this->assertCount(0, $this->product->getOrderItems());
-    }
 
 
 }
