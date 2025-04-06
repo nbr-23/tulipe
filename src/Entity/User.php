@@ -39,8 +39,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string|null
      */
     #[ORM\Column(length: 180)]
-    #[Assert\NotBlank]
-    #[Assert\Email]
+    #[Assert\NotBlank(message: "L'adresse e-mail ne peut pas être vide.")]
+    #[Assert\Email(message: "L'adresse e-mail doit être valide.")]
     #[Groups(['default'])]
     private ?string $email = null;
 
@@ -49,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var list<string>
      */
     #[ORM\Column]
-    #[Assert\NotBlank] 
+    #[Assert\NotBlank(message: "Les rôles ne peuvent pas être vides.")]
     private array $roles = [];
 
     /* The user's hashed password.
@@ -57,10 +57,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string|null
      */
     #[ORM\Column]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "Le mot de passe ne peut pas être vide.")]
     #[Assert\Regex(
         pattern: "/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/",
-        message: "The password must be at least 8 characters long and include at least one letter and one number."
+        message: "Le mot de passe doit contenir au moins 8 caractères, incluant au moins une lettre et un chiffre."
     )]
     private ?string $password = null;
 
@@ -69,10 +69,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string|null
      */
     #[ORM\Column(length: 100, nullable: true)]
-    #[Assert\Length(max: 100)]
+    #[Assert\Length(max: 100, maxMessage: "Le prénom ne peut pas dépasser {{ limit }} caractères.")]
     #[Assert\Regex(
         pattern: "/^[a-zA-ZÀ-ÿ-]+$/",
-        message: "The name can only contain letters and hyphens."
+        message: "Le prénom ne peut contenir que des lettres et des tirets."
     )]
     private ?string $firstName = null;
 
@@ -81,10 +81,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string|null
      */
     #[ORM\Column(length: 100, nullable: true)]
-    #[Assert\Length(max: 100)]
+    #[Assert\Length(max: 100, maxMessage: "Le nom ne peut pas dépasser {{ limit }} caractères.")]
     #[Assert\Regex(
         pattern: "/^[a-zA-ZÀ-ÿ-]+$/",
-        message: "The name can only contain letters and hyphens."
+        message: "Le nom ne peut contenir que des lettres et des tirets."
     )]
     private ?string $lastName = null;
 

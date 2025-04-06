@@ -43,8 +43,8 @@ class Order
      * @var string|null
      */
     #[ORM\Column(length: 50)]
-    #[Assert\NotBlank]
-    #[Assert\Choice(choices: ['pending', 'completed', 'cancelled'])]
+    #[Assert\NotBlank(message: "Le statut de la commande ne peut pas être vide.")]
+    #[Assert\Choice(choices: ['pending', 'completed', 'cancelled'], message: "Le statut doit être 'pending', 'completed' ou 'cancelled'.")]
     #[Groups(['default'])]
     private ?string $status = null;
 
@@ -53,8 +53,8 @@ class Order
      * @var string|null
      */
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    #[Assert\NotNull]
-    #[Assert\PositiveOrZero]
+    #[Assert\NotNull(message: "Le montant total de la commande ne peut pas être nul.")]
+    #[Assert\PositiveOrZero(message: "Le montant total doit être positif ou égal à zéro.")]
     #[Groups(['default'])]
     private ?string $total_amount = null;
 
@@ -63,8 +63,8 @@ class Order
      * @var string|null
      */
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    #[Assert\NotNull]
-    #[Assert\PositiveOrZero]
+    #[Assert\NotNull(message: "Le montant des frais de livraison ne peut pas être nul.")]
+    #[Assert\PositiveOrZero(message: "Le montant des frais de livraison doit être positif ou égal à zéro.")]
     private ?string $shipping_amount = null;
 
     /* The payment method used for the order.
@@ -72,7 +72,7 @@ class Order
      * @var string|null
      */
     #[ORM\Column(length: 50)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "Le mode de paiement ne peut pas être vide.")]
     #[Groups(['default'])]
     private ?string $payment_method = null;
 
@@ -81,7 +81,7 @@ class Order
      * @var string|null
      */
     #[ORM\Column(length: 50)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "Le statut du paiement ne peut pas être vide.")]
     private ?string $payment_status = null;
 
     /* The tracking number for the order shipment (optional).
@@ -89,7 +89,7 @@ class Order
      * @var string|null
      */
     #[ORM\Column(length: 100, nullable: true)]
-    #[Assert\Length(max: 100)]
+    #[Assert\Length(max: 100, maxMessage: "Le numéro de suivi ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $tracking_number = null;
 
     /* Additional notes for the order (optional).
@@ -97,7 +97,7 @@ class Order
      * @var string|null
      */
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\Length(max: 1000)]
+    #[Assert\Length(max: 1000, maxMessage: "Les notes ne peuvent pas dépasser {{ limit }} caractères.")]
     private ?string $notes = null;
 
     /* The shipping address associated with the order.
@@ -106,6 +106,7 @@ class Order
      */
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: "L'adresse de livraison ne peut pas être vide.")]
     private ?Address $shipping_address = null;
 
     /* The billing address associated with the order.
@@ -114,6 +115,7 @@ class Order
      */
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: "L'adresse de facturation ne peut pas être vide.")]
     private ?Address $billing_address = null;
 
     /* The creation date of the order.

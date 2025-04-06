@@ -35,8 +35,8 @@ class Product
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 3, max: 255)]
+    #[Assert\NotBlank(message: "Le nom du produit ne peut pas être vide.")]
+    #[Assert\Length(min: 3, max: 255, minMessage: "Le nom doit contenir au moins {{ limit }} caractères.", maxMessage: "Le nom ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $name = null;
 
     /* The product description, a text field that can be null.
@@ -45,7 +45,7 @@ class Product
      * @var string|null
      */
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\Length(min: 1, max: 1000, allowEmptyString: false)]
+    #[Assert\Length(min: 1, max: 1000, allowEmptyString: false, minMessage: "La description doit contenir au moins {{ limit }} caractères.", maxMessage: "La description ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $description = null;
 
     /* The product price, a decimal value with a precision of 10 and scale of 2.
@@ -54,8 +54,8 @@ class Product
      * @var string|null
      */
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    #[Assert\NotNull]
-    #[Assert\Positive]
+    #[Assert\NotNull(message: "Le prix du produit ne peut pas être nul.")]
+    #[Assert\Positive(message: "Le prix du produit doit être une valeur positive.")]
     private ?string $price = null;
 
     /* The product type, a string with a maximum length of 50 characters.
@@ -64,7 +64,7 @@ class Product
      * @var string|null
      */
     #[ORM\Column(length: 50)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "Le type du produit ne peut pas être vide.")]
     private ?string $type = null;
 
     /* The product stock, an unsigned integer that must be greater than or equal to 0.
@@ -73,8 +73,8 @@ class Product
      * @var int|null
      */
     #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true])]
-    #[Assert\NotNull]
-    #[Assert\GreaterThanOrEqual(0)]
+    #[Assert\NotNull(message: "Le stock du produit ne peut pas être nul.")]
+    #[Assert\GreaterThanOrEqual(0, message: "Le stock doit être supérieur ou égal à 0.")]
     private ?int $stock = null;
 
     /* The product status, a string with a maximum length of 20 characters.
@@ -83,7 +83,7 @@ class Product
      * @var string
      */
     #[ORM\Column(length: 20)]
-    #[Assert\Choice(choices: ['active', 'inactive'])]
+    #[Assert\Choice(choices: ['active', 'inactive'], message: "Le statut doit être 'active' ou 'inactive'.")]
     private string $status = 'inactive';
 
     /* The product slug, a URL-friendly string with a maximum length of 255 characters.
@@ -92,7 +92,7 @@ class Product
      * @var string|null
      */
     #[ORM\Column(length: 255, unique: true)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "Le slug du produit ne peut pas être vide.")]
     private ?string $slug = null; // url friendly name for best readability, SEO etc
 
     /* The product creation date, automatically set to the current date and time when the product is created.

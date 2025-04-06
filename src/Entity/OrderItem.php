@@ -34,8 +34,8 @@ class OrderItem
      * @var int
      */
     #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true])]
-    #[Assert\NotNull]
-    #[Assert\Positive]
+    #[Assert\NotNull(message: "La quantité ne peut pas être nulle.")]
+    #[Assert\Positive(message: "La quantité doit être un entier positif.")]
     #[Groups(['default'])]
     private int $quantity = 1;
 
@@ -45,8 +45,8 @@ class OrderItem
      * @var string|null
      */
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    #[Assert\NotNull]
-    #[Assert\Positive]
+    #[Assert\NotNull(message: "Le prix unitaire ne peut pas être nul.")]
+    #[Assert\Positive(message: "Le prix unitaire doit être un nombre positif.")]
     #[Groups(['default'])]
     private ?string $unitPrice = null;
 
@@ -62,6 +62,7 @@ class OrderItem
      */
     #[ORM\ManyToOne(inversedBy: 'orderItems')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: "La commande associée ne peut pas être nulle.")]
     private ?Order $order = null;
 
     /* The product associated with this order item.
@@ -71,6 +72,7 @@ class OrderItem
      */
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'orderItems')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: "Le produit associé ne peut pas être nul.")]
     private ?Product $product = null;
 
     ################################

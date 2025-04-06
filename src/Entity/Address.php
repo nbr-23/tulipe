@@ -33,8 +33,8 @@ class Address
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
+    #[Assert\NotBlank(message: "Le type d'adresse ne peut pas être vide.")]
+    #[Assert\Length(max: 255, maxMessage: "Le type d'adresse ne peut pas dépasser {{ limit }} caractères.")]
     #[Groups(['default'])]
     private ?string $type = null;
 
@@ -43,8 +43,8 @@ class Address
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
+    #[Assert\NotBlank(message: "Le prénom ne peut pas être vide.")]
+    #[Assert\Length(max: 255, maxMessage: "Le prénom ne peut pas dépasser {{ limit }} caractères.")]
     #[Groups(['default'])]
     private ?string $first_name = null;
 
@@ -53,8 +53,8 @@ class Address
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
+    #[Assert\NotBlank(message: "Le nom de famille ne peut pas être vide.")]
+    #[Assert\Length(max: 255, maxMessage: "Le nom de famille ne peut pas dépasser {{ limit }} caractères.")]
     #[Groups(['default'])]
     private ?string $last_name = null;
 
@@ -63,8 +63,8 @@ class Address
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
+    #[Assert\NotBlank(message: "La première ligne de l'adresse ne peut pas être vide.")]
+    #[Assert\Length(max: 255, maxMessage: "La première ligne de l'adresse ne peut pas dépasser {{ limit }} caractères.")]
     #[Groups(['default'])]
     private ?string $street1 = null;
 
@@ -73,7 +73,7 @@ class Address
      * @var string|null
      */
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255)]
+    #[Assert\Length(max: 255, maxMessage: "La deuxième ligne de l'adresse ne peut pas dépasser {{ limit }} caractères.")]
     #[Groups(['default'])]
     private ?string $street2 = null;
 
@@ -82,8 +82,8 @@ class Address
      * @var string|null
      */
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 100)]
+    #[Assert\NotBlank(message: "La ville ne peut pas être vide.")]
+    #[Assert\Length(max: 100, maxMessage: "La ville ne peut pas dépasser {{ limit }} caractères.")]
     #[Groups(['default'])]
     private ?string $city = null;
 
@@ -92,7 +92,7 @@ class Address
      * @var string|null
      */
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(max: 255)]
+    #[Assert\Length(max: 255, maxMessage: "La région ou l'état ne peut pas dépasser {{ limit }} caractères.")]
     #[Groups(['default'])]
     private ?string $state = null;
 
@@ -101,9 +101,9 @@ class Address
      * @var string|null
      */
     #[ORM\Column(length: 2)]
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 2)]
-    #[Assert\Regex(pattern: "/^[A-Z]{2}$/", message: "The country code must be in ISO 3166-1 alpha-2 format.")]
+    #[Assert\NotBlank(message: "Le code pays ne peut pas être vide.")]
+    #[Assert\Length(max: 2, maxMessage: "Le code pays ne peut pas dépasser {{ limit }} caractères.")]
+    #[Assert\Regex(pattern: "/^[A-Z]{2}$/", message: "Le code pays doit être au format ISO 3166-1 alpha-2.(2 lettres)")]
     #[Groups(['default'])]
     private ?string $country = null;
 
@@ -112,8 +112,8 @@ class Address
      * @var string|null
      */
     #[ORM\Column(length: 20)]
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 20)]
+    #[Assert\NotBlank(message: "Le code postal ne peut pas être vide.")]
+    #[Assert\Length(max: 20, maxMessage: "Le code postal ne peut pas dépasser {{ limit }} caractères.")]
     #[Groups(['default'])]
     private ?string $zip_code = null;
 
@@ -122,8 +122,8 @@ class Address
      * @var string|null
      */
     #[ORM\Column(length: 20, nullable: true)]
-    #[Assert\Length(max: 20)]
-    #[Assert\Regex(pattern: "/^\+?[0-9\s\-]+$/", message: "The phone number is invalid.")]
+    #[Assert\Length(max: 20, maxMessage: "Le numéro de téléphone ne peut pas dépasser {{ limit }} caractères.")]
+    #[Assert\Regex(pattern: "/^\+?[0-9\s\-]+$/", message: "Le numéro de téléphone est invalide.")]
     #[Groups(['default'])]
     private ?string $phone = null;
 
