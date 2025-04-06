@@ -112,22 +112,6 @@ class Product
 
     ################################
     ################################
-    ########## RELATIONS ###########
-    ################################
-    ################################
-
-    /* The collection of order items associated with the product.
-     * Represents the relationship between the product and the order items in which it is included.
-     * Each order item corresponds to a specific instance of the product in an order.
-     * 
-     * @var Collection<int, OrderItem>
-     */
-    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'product', orphanRemoval: true)]
-    private Collection $orderItems;
-
-
-    ################################
-    ################################
     ########## LIFECYCLE ###########
     ################################
     ################################
@@ -168,7 +152,6 @@ class Product
      */
     public function __construct()
     {
-        $this->orderItems = new ArrayCollection();
         $this->created_at = new \DateTimeImmutable();
         $this->updated_at = new \DateTimeImmutable();
     }

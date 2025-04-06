@@ -7,9 +7,6 @@ use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\TestCase;
 use App\Entity\OrderItem;
 
-
-
-
 /**
  * Test suite for the Product entity.
  * 
@@ -87,24 +84,30 @@ class ProductTest extends TestCase
      */
     public function testSettersAndGetters(): void
     {
-        // Set values using setters
-    $this->product
-        ->setName('Advanced PHP Programming')
-        ->setPrice(49.99)
-        ->setStock(25)
-        ->setType('book')
-        ->setSlug('advanced-php-programming')
-        ->setDescription('A comprehensive guide to advanced PHP techniques')
-        ->setStatus('active');
+        $name = 'Advanced PHP Programming';
+        $price = 49.99;
+        $stock = 25;
+        $type = 'book';
+        $slug = 'advanced-php-programming';
+        $description = 'A comprehensive guide to advanced PHP techniques';
+        $status = 'active';
 
-    // Assert that the values are set correctly
-    $this->assertEquals('Advanced PHP Programming', $this->product->getName());
-    $this->assertEquals(49.99, $this->product->getPrice());
-    $this->assertEquals(25, $this->product->getStock());
-    $this->assertEquals('book', $this->product->getType());
-    $this->assertEquals('advanced-php-programming', $this->product->getSlug());
-    $this->assertEquals('A comprehensive guide to advanced PHP techniques', $this->product->getDescription());
-    $this->assertEquals('active', $this->product->getStatus());
+        $this->product
+            ->setName($name)
+            ->setPrice($price)
+            ->setStock($stock)
+            ->setType($type)
+            ->setSlug($slug)
+            ->setDescription($description)
+            ->setStatus($status);
+
+        $this->assertEquals($name, $this->product->getName());
+        $this->assertEquals($price, $this->product->getPrice());
+        $this->assertEquals($stock, $this->product->getStock());
+        $this->assertEquals($type, $this->product->getType());
+        $this->assertEquals($slug, $this->product->getSlug());
+        $this->assertEquals($description, $this->product->getDescription());
+        $this->assertEquals($status, $this->product->getStatus());
     }
 
 

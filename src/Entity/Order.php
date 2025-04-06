@@ -149,6 +149,8 @@ class Order
     {
         $this->orderItems = new ArrayCollection();
         $this->created_at = new \DateTimeImmutable();
+        $this->updated_at = new \DateTimeImmutable();
+
     }
 
     ################################
@@ -392,7 +394,7 @@ class Order
      * 
      * @return Address|null
      */
-    public function getShippingAddress(): ?int
+    public function getShippingAddress(): ?Address
     {
         return $this->shipping_address;
     }

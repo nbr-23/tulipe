@@ -48,7 +48,7 @@ class OrderItem
     #[Assert\NotNull]
     #[Assert\Positive]
     #[Groups(['default'])]
-    private ?string $unit_price = null;
+    private ?string $unitPrice = null;
 
     ################################
     ################################
@@ -65,10 +65,11 @@ class OrderItem
     private ?Order $order = null;
 
     /* The product associated with this order item.
+     * Represents the relationship between the order item and the product it refers to.
      * 
      * @var Product|null
      */
-    #[ORM\ManyToOne(inversedBy: 'orderItems')]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'orderItems')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
@@ -161,22 +162,22 @@ class OrderItem
     /*
      * Get the unit price of the product in this order item.
      * 
-     * @return float|null
+     * @return string|null
      */
-    public function getUnitPrice(): ?float
+    public function getUnitPrice(): ?string
     {
-        return $this->unit_price;
+        return $this->unitPrice;
     }
 
     /*
      * Set the unit price of the product in this order item.
      * 
-     * @param float $unit_price
+     * @param string $unitPrice
      * @return static
      */
-    public function setUnitPrice(float $unit_price): static
+    public function setUnitPrice(string $unitPrice): static
     {
-        $this->unit_price = $unit_price;
+        $this->unitPrice = $unitPrice;
 
         return $this;
     }

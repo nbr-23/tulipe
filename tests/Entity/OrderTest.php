@@ -37,10 +37,8 @@ class OrderTest extends TestCase
      * - Created at and updated at are instances of DateTimeImmutable
      * - Order items collection is empty
      */
-
-    public function testDefaultValues()
+    public function testDefaultValues(): void
     {
-        // Test default values
         $this->assertNull($this->order->getId());
         $this->assertNull($this->order->getStatus());
         $this->assertNull($this->order->getTotalAmount());
@@ -49,55 +47,56 @@ class OrderTest extends TestCase
         $this->assertNull($this->order->getPaymentStatus());
         $this->assertNull($this->order->getTrackingNumber());
         $this->assertNull($this->order->getNotes());
-        $this->assertNull($this->order->getShippingAddressId());
-        $this->assertNull($this->order->getBillingAddressId());
+        $this->assertNull($this->order->getShippingAddress());
+        $this->assertNull($this->order->getBillingAddress());
         $this->assertInstanceOf(\DateTimeImmutable::class, $this->order->getCreatedAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $this->order->getUpdatedAt());
-
-        // Test initial state of order items
         $this->assertCount(0, $this->order->getOrderItems());
     }
 
     /**
      * Test setters and getters for Order entity.
      * 
-     * This test verifies that the setters and getters work correctly by setting
-     * values using the setters and then asserting that the getters return the
-     * expected values.
+     * Verifies that:
+     * - Each setter correctly sets the corresponding property
+     * - Each getter retrieves the correct value
      */
-    public function testSettersAndGetters(): void 
+    public function testSettersAndGetters(): void
     {
-        // Create mock objects for User and Address
+        $status = 'pending';
+        $totalAmount = '100.00';
+        $shippingAmount = '10.00';
+        $paymentMethod = 'credit_card';
+        $paymentStatus = 'paid';
+        $trackingNumber = '123456789';
+        $notes = 'Please deliver between 9 AM and 5 PM';
         $user = $this->createMock(User::class);
         $shippingAddress = $this->createMock(Address::class);
         $billingAddress = $this->createMock(Address::class);
 
-        // Set values using setters
         $this->order
             ->setUserId($user)
-            ->setShippingAddressId($shippingAddress)
-            ->setBillingAddressId($billingAddress)
-            ->setStatus('pending')
-            ->setTotalAmount(100.00)
-            ->setShippingAmount(10.00)
-            ->setPaymentMethod('credit_card')
-            ->setPaymentStatus('paid')
-            ->setTrackingNumber('123456789')
-            ->setNotes('Please deliver between 9 AM and 5 PM');
+            ->setShippingAddress($shippingAddress)
+            ->setBillingAddress($billingAddress)
+            ->setStatus($status)
+            ->setTotalAmount($totalAmount)
+            ->setShippingAmount($shippingAmount)
+            ->setPaymentMethod($paymentMethod)
+            ->setPaymentStatus($paymentStatus)
+            ->setTrackingNumber($trackingNumber)
+            ->setNotes($notes);
 
-        // Assert that the values are set correctly
         $this->assertSame($user, $this->order->getUserId());
-        $this->assertSame($shippingAddress, $this->order->getShippingAddressId());
-        $this->assertSame($billingAddress, $this->order->getBillingAddressId());
-        $this->assertEquals('pending', $this->order->getStatus());
-        $this->assertEquals(100.00, $this->order->getTotalAmount());
-        $this->assertEquals(10.00, $this->order->getShippingAmount());
-        $this->assertEquals('credit_card', $this->order->getPaymentMethod());
-        $this->assertEquals('paid', $this->order->getPaymentStatus());
-        $this->assertEquals('123456789', $this->order->getTrackingNumber());
-        $this->assertEquals('Please deliver between 9 AM and 5 PM', $this->order->getNotes());
+        $this->assertSame($shippingAddress, $this->order->getShippingAddress());
+        $this->assertSame($billingAddress, $this->order->getBillingAddress());
+        $this->assertEquals($status, $this->order->getStatus());
+        $this->assertEquals($totalAmount, $this->order->getTotalAmount());
+        $this->assertEquals($shippingAmount, $this->order->getShippingAmount());
+        $this->assertEquals($paymentMethod, $this->order->getPaymentMethod());
+        $this->assertEquals($paymentStatus, $this->order->getPaymentStatus());
+        $this->assertEquals($trackingNumber, $this->order->getTrackingNumber());
+        $this->assertEquals($notes, $this->order->getNotes());
     }
-
 
     /**
      * Test lifecycle callbacks for created and updated timestamps.
@@ -110,42 +109,53 @@ class OrderTest extends TestCase
     public function testLifecycleCallbacks(): void
     {
         $this->order->setCreatedAtValue();
-        
+
         $this->assertInstanceOf(\DateTimeImmutable::class, $this->order->getCreatedAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $this->order->getUpdatedAt());
-        
-        // Test PreUpdate
+
         $oldUpdatedAt = $this->order->getUpdatedAt();
-        sleep(1); // Wait 1 second to ensure different timestamp
+        sleep(1);
 
         $this->order->setUpdatedAtValue();
-        
-        $this->assertNotEquals($oldUpdatedAt, $this->order->getUpdatedAt());
 
+        $this->assertNotEquals($oldUpdatedAt, $this->order->getUpdatedAt());
         $this->assertSame($this->order->getCreatedAt(), $this->order->getCreatedAt());
     }
 
-    /*     * Test the relationship between Order and OrderItem entities.
+    /**
+     * Test the relationship between Order and OrderItem entities.
      * 
      * Verifies that:
      * - Order items can be added and removed correctly
      */
-    public function testOrderItemsRelation()
+    public function testOrderItemsRelation(): void
     {
-        // Create a mock OrderItem
         $orderItem = $this->createMock(OrderItem::class);
 
-        // Add the order item to the order
         $this->order->addOrderItem($orderItem);
-
-        // Assert that the order item is added correctly
         $this->assertCount(1, $this->order->getOrderItems());
         $this->assertSame($orderItem, $this->order->getOrderItems()->first());
 
-        // Remove the order item from the order
         $this->order->removeOrderItem($orderItem);
-
-        // Assert that the order item is removed correctly
         $this->assertCount(0, $this->order->getOrderItems());
+    }
+
+    /**
+     * Test the relationship between Order and User entities.
+     * 
+     * Verifies that:
+     * - A user can be set and retrieved from an order
+     */
+    public function testUserRelation(): void
+    {
+        $user = new User();
+
+        // Set user
+        $this->order->setUserId($user);
+        $this->assertSame($user, $this->order->getUserId());
+
+        // Unset user
+        $this->order->setUserId(null);
+        $this->assertNull($this->order->getUserId());
     }
 }
